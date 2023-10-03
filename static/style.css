@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.pokedex {
+    background-color: #fff;
+    max-width: 400px;
+    margin: 20px auto;
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.infobox {
+    color: #000000;
+    text-align: center;
+    padding: 10px;
+    text-align: justify;
+    text-justify: inter-word;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: beige;
+}
+
+.header {
+    background-color: #e00;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.body {
+    padding: 20px;
+    text-align: center;
+}
+
+.screen {
+    border: 5px solid black;
+    padding: 20px;
+    text-align: center;
+}
+
+.screen img {
+    max-width: 50%;
+    height: auto;
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+button {
+    background-color: #e00;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #c00;
+}

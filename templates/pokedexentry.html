@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="pokedex">
+        <div class="header">
+            <h1>Pokedex</h1>
+        </div>
+        <div class="body">
+            <h1><u>{{data['name']}}</u></h1>
+            <div class="screen">
+                <img id="pokemon-image" src="{{ data['image'] }}" alt="Pokedex Screen">
+            </div>
+            <div class="infobox">
+                <b>INDEX:</b> {{data['id']}}<br>
+                <b><u>Generation Entry:</b> {{data['gen']}}</u><br>
+                {{data['entry']}}
+            </div>
+            <div class="controls">
+                {% if data.id < 2 %}
+                    <button id="prev" style="background-color: lightgrey;" class="prev-button">Prev</button>
+                {% else %}
+                    <button id="prev" onclick="goToPrev()" class="prev-button">Prev</button>
+                {% endif %}
+                {% if data.id > 1007 %}
+                    <button id="next" style="background-color: lightgrey;" class="next-button">Next</button>
+                {% else %}
+                    <button id="next" onclick="goToNext()" class="next-button">Next</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script>
+          
+        var pokemonData = JSON.parse('{{ links|tojson|safe}}');
+        console.log(pokemonData);
+        function goToPrev()
+        {
+            var url = pokemonData.prev;
+            window.location.href = url;
+        }
+        function goToNext(){
+            var url = pokemonData.next;
+            window.location.href = url;
+        }
+        
+    </script>
+</body>
+
+</html>
+
