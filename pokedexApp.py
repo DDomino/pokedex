@@ -35,19 +35,26 @@ def upload():
 
 @app.route('/pokemon/<name>')
 def getPokemon(name):
-    pokemon = fetchPokemon(name, 'random', 'en')
+    errorholder = []
+    pokemon = fetchPokemon(name.lower(), 'random', 'en')
     data = { 'name' : pokemon.name,
              'id' : pokemon.id,
              'gen': pokemon.gen,
              'entry' : pokemon.entry,
              'genus' : pokemon.genus,
              'image' : pokemon.image,
+             'errorholder' : errorholder
             }
     links = {'prev' : pokemon.prev,
              'next' : pokemon.next
              }
-    return render_template('pokedexentry.html', data = data, links = links)
-    
+    try:
+        return render_template('pokedexentry.html', data = data, links = links)
+    except:
+        errorholder.append('Error occured')
+        return render_template('index.html')
+        
+
 if __name__ == '__main__':
     IRmodel, IRmodelClasses = setUpModel()
     app.run(debug=True)

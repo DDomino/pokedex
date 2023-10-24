@@ -14,41 +14,12 @@ def printPokeDexText(pokeId, pokeName, PokeDexEntry, generation, genus):
     genus = genus if genus != '' else 'Unknown'
     spiciesPrefix = 'The ' if genus != 'Unknown' else ''
     info = 'PokeDex Index: ' + str(pokeId) + '\n' + 'Pokemon Name: ' + pokeName + '\n' + 'Pokemon Genus: ' + spiciesPrefix + genus + '\n' + '------------------- \n'+ 'Generation: '+generation + '\n' + '------------------- \n'+ 'DexEntry:\n'+ PokeDexEntry + '\n'+ '==================='
-    print('PokeDex Index: '+ str(pokeId))
-    print ('Pokemon Name: '+ pokeName)
-    print ('Pokemon Genus: ' + spiciesPrefix + genus)
-    print('-------------------')
-    print('Generation: '+generation)
-    print('-------------------')
-    print('DexEntry:')
-    print(PokeDexEntry)
-    print('===================')
-    print()
     return info
 
 def discoverPokemon(pokeId, pokeName, pokeDexEntry, generation, genus):
     info = printPokeDexText(pokeId, pokeName, pokeDexEntry, generation, genus)
-   # engine = pyttsx3.init()
     spiciesPrefix = 'The ' if genus != '' else ''
-    mytext = pokeName+'...'+ spiciesPrefix +genus+ '...'+pokeDexEntry 
-    #engine.say(mytext)
-    #engine.runAndWait()
     return info
-
-def getAllDexentries(pokeId, pokeName, pokeDEXEntries, DexLang):
-    print('PokeDex Index: '+ str(pokeId))
-    print ('Pokemon Name: '+ pokeName)
-    for x in pokeDEXEntries:
-            language = x['language']['name']
-            if language == DexLang:
-                print('-------------------')
-                print('Generation: '+x['version']['name'])
-                print('-------------------')
-                print('DexEntry:')
-                print(x['flavor_text'].replace('\n', ' '))
-                print('===================')
-                print()
-                #return(x['flavor_text'].replace('\n', ' '))
 
 def getRandomDexEntry(pokeDexEntries, DexLang):
     searching = True
@@ -109,7 +80,6 @@ def fetchPokemon(id, generation, DexLang):
             getAllDexentries(pokeId, pokeName, PokeDXEntries, DexLang)
         elif generation == 'random':
             singleEntry, newGeneration = getRandomDexEntry(PokeDXEntries, DexLang)
-            discoverPokemon(pokeId, pokeName, singleEntry, newGeneration, pokeGenus)
             image = 'https://pngimg.com/uploads/pokemon/pokemon_PNG1.png'
             prev = baseUrl+str(pokeId-1)
             next = baseUrl+str(pokeId+1)
@@ -124,46 +94,6 @@ def fetchPokemon(id, generation, DexLang):
             discoverPokemon(pokeId, pokeName, dexEntry, generation, pokeGenus)
     except:
         print('Unknown Pokemon')
-    return create_object('','','','','')
-def callIdentifyPokemon(imagePath):
-    model, class_names = setUpModel()
-    pokemonName = identifyPokemon(model, imagePath ,class_names)
-    return pokemonName
+    return create_object('','','','','', '', '', '')
+
      
-'''
-def getPokemon(options = None):
-    id = options.pokemonName
-    gen = options.pokemonGen
-    DexLang = 'en'
-    if options.dexLanguage != None:
-         DexLang = options.dexLanguage
-    if options:
-        if options.pokemonImage == None or id != None:
-            if id != None:
-                if gen == None:
-                    fetchPokemon(id, 'random', DexLang)
-                else:
-                    fetchPokemon(id, gen, DexLang)
-            else: 
-                randompkm = randrange(905)
-                fetchPokemon(randompkm, 'random', DexLang)
-        else:
-            pokemonName = callIdentifyPokemon(options.pokemonImage)
-            if gen == None:
-                fetchPokemon(pokemonName, 'random', DexLang)
-            else:
-                fetchPokemon(pokemonName, gen, DexLang)                
-'''
-             
-'''
-if __name__ == "__main__":
-    parser = OptionParser()
-    spiciesPrefix = ''
-    parser.add_option('-p', '--pokemon', dest = 'pokemonName')
-    parser.add_option('-g', '--generation', dest = 'pokemonGen')
-    parser.add_option('-l', '--language', dest = 'dexLanguage')
-    parser.add_option('-i', '--image', dest= 'pokemonImage')
-    parser.add_option('-f', '--full', dest= 'fullDex')
-    (options, args) = parser.parse_args()
-    getPokemon(options)
-'''             

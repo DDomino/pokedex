@@ -2,6 +2,7 @@ import requests
 import json
 import os
 from optparse import OptionParser
+from multiprocessing.dummy import Pool as ThreadPool
  
 # Print iterations progress
 def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
@@ -25,21 +26,31 @@ def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, 
     if iteration == total: 
         print()
 
-def getPokemonSprites(numberOfPokemonToGet):
-    index = 0
-    printProgressBar(0, numberOfPokemonToGet, prefix='Progress', suffix='Complete', length=50)
-    while(index < numberOfPokemonToGet):
-        pokemon = index+1
-        baseUrl = 'https://pokeapi.co/api/v2/pokemon/'
-        fetchPokemon = baseUrl+str(pokemon)
-        res = requests.get(fetchPokemon)
+def createUrls(number):
+    urls = []
+    for i in range(1, number+1):
+        urls.append('https://pokeapi.co/api/v2/pokemon/'+str(i))
+    return urls
+
+index = 0
+testnumber = 0
+
+def poolFunction(url):
+        res = requests.get(url)
         response = json.loads(res.text)
         name = response['name']
         spritesKeyValue = response['sprites']
         spriteUrlList = getSpriteUrls(spritesKeyValue)
         savePokemonImages(spriteUrlList, name)
-        printProgressBar(index, numberOfPokemonToGet, prefix='Progress', suffix='Complete', length=50)
-        index += 1
+
+
+def getPokemonSprites(numberOfPokemonToGet):
+    pool = ThreadPool()
+    urls = createUrls(numberOfPokemonToGet)
+    printProgressBar(0, numberOfPokemonToGet, prefix='Progress', suffix='Complete', length=50)
+    pool.map(poolFunction, urls)
+    pool.close()
+    pool.join()
     printProgressBar(index, numberOfPokemonToGet, prefix='Progress', suffix='Complete', length=50)
 
 def getSpriteUrls(sprites):

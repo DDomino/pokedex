@@ -89,7 +89,6 @@ def setUpModel():
 
 def identifyPokemon(model, pokemontofind, class_names):
     pokemontofind = pathlib.Path(pokemontofind)
-    #pokemontofind = list(pokemontofind.glob('*.*'))
     print(pokemontofind)
     img = tf.keras.preprocessing.image.load_img(pokemontofind, target_size=(50,50))
     img_array = tf.keras.utils.img_to_array(img)
