@@ -1,0 +1,40 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table pokemon {
+  system_id integer [primary key, increment]
+  pokedex_id integer [not null]
+  pokemon_name varchar(100) [not null]
+  pokemon_spicies varchar(100) [not null]
+  pokemon_height double [not null]
+  pokemon_weight double [not null]
+  pokemon_ability_one integer
+  pokemon_ability_two integer
+  pokemon_ability_hidden integer
+  type_one varchar(10) [not null]
+  type_two varchar(10) [not null]
+  past_type_one varchar(10) [default:null]
+  past_typp_two varchar(10) [default:null]
+}
+
+Table abilities {
+  system_id integer [primary key, increment]
+  ability_id integer
+  ability_name varchar(20)
+  ability_effect text
+}
+
+Table type {
+  system_id integer [primary key, increment]
+  type_id integer
+  type varchar(10)
+}
+
+Ref: pokemon.type_one <> type.type_id
+
+Ref: pokemon.pokemon_ability_one <> abilities.ability_id
+//Ref: posts.user_id > users.id // many-to-one
+
+//Ref: users.id < follows.following_user_id
+
+//Ref: users.id < follows.followed_user_id

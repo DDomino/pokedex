@@ -1,12 +1,7 @@
 import requests
 import json
-import pyttsx3
 from random import randrange
-from optparse import OptionParser
-from PokemonIRModel import setUpModel
-from PokemonIRModel import identifyPokemon
 from pokemonDTO import create_object
-from PIL import Image
 
 spiciesPrefix = ''
 
@@ -51,6 +46,7 @@ def getPokeDexEntryByGen(pokeDexEntries, generation, DexLang):
                     return x['flavor_text'].replace('\n', ' ')
                 
 def getPokemonGenus(pokeDexEntries, DexLang):
+            print(pokeDexEntries)
             pokeGenuses = pokeDexEntries['genera']
             for x in pokeGenuses:
                 language = x['language']['name']
