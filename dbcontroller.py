@@ -146,11 +146,13 @@ def insertAbility(abilities):
     cursor.close()
     conn.close()
 
-pkm = getPokemon(GET_NUMBER_OF_POKEMON)
-abilities = getAbilities(GET_NUMBER_OF_ABILITIES)
-types = getTypes(NUMBER_OF_TYPES)
-insertPokemon(pkm)
-insertAbility(abilities)
-insertTypes(types)
-print('Done')
+
+def populateDatabase():
+    pkm = getPokemon(GET_NUMBER_OF_POKEMON)
+    abilities = getAbilities(GET_NUMBER_OF_ABILITIES)
+    types = getTypes(NUMBER_OF_TYPES)
+    insertPokemon(pkm)
+    insertAbility(abilities)
+    insertTypes(types)
+    print('Done')
 
