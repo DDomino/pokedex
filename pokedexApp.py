@@ -3,8 +3,11 @@ from pokedex import fetchPokemon
 from flask import render_template
 from PokemonIRModel import setUpModel, identifyPokemon
 import os
+from cache.pkmCache import populatePkmCache
 
 app = Flask(__name__)
+
+PKMCache = populatePkmCache()
 
 UPLOADR_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOADR_FOLDER
@@ -36,7 +39,8 @@ def upload():
 @app.route('/pokemon/<name>')
 def getPokemon(name):
     errorholder = []
-    pokemon = fetchPokemon(name.lower(), 'random', 'en')
+    pokemon = PKMCache.get(int(name))
+    print(pokemon)
     data = { 'name' : pokemon.name,
              'id' : pokemon.id,
              'gen': pokemon.gen,
