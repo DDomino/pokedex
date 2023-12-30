@@ -1,3 +1,13 @@
+CREATE TABLE dexentries(
+    id SERIAL PRIMARY key,
+    pokemonid INTEGER,
+    generation VARCHAR(20),
+    dexentry TEXT,
+    language varchar(20),
+    unique (pokemonid, generation, language)
+);
+
+
 CREATE TABLE pokemon(
 id SERIAL PRIMARY KEY,
 pokedexid INTEGER UNIQUE NOT NULL,
@@ -38,22 +48,4 @@ CREATE TABLE generations(
     generationname text NOT NULL
 );
 
-CREATE INDEX idx_generationid ON generations(generationid)
-
-
-CREATE TABLE pokedexentries(
-    id SERIAL PRIMARY KEY,
-    pokedexid INTEGER,
-    generationid INTEGER NOT NULL,
-    pokedexentry TEXT,
-    CONSTRAINT fk_pokemonid
-        FOREIGN KEY (pokedexid)
-        REFERENCES pokemon(pokedexid),
-    CONSTRAINT fk_generationid
-        FOREIGN KEY (generationid)
-        REFERENCES generations(generationid)
-);
-
-
-CREATE INDEX idx_pokemon_generation ON pokedexentries(pokemonid, generationid);
-
+CREATE INDEX idx_generationid ON generations(generationid);

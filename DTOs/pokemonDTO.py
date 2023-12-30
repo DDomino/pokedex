@@ -1,6 +1,6 @@
 class pokemonDTO:
     
-    def __init__(self, id, name, species, height, weight, abilityone, abilitytwo, abilitythree,typeone, typetwo, entry, gen, genus, image, prev, next):
+    def __init__(self, id, name, species, height, weight, abilityone, abilitytwo, abilitythree,typeone, typetwo, entry, gen, image, prev, next):
         self.id = id
         self.name = name
         self.species = species
@@ -13,12 +13,11 @@ class pokemonDTO:
         self.typetwo = typetwo
         self.entry = entry
         self.gen = gen
-        self.genus = genus
         self.image = image
         self.prev = prev
         self.next = next
 
     @classmethod
-    def create_object(cls, id, name, species, height, weight, abilityone, abilitytwo, abilitythree, typeone, typetwo):
-        obj =  cls(id, name.capitalize(), species, height, weight, abilityone, abilitytwo, abilitythree, typeone, typetwo, None, None, None, None, None, None )
+    def create_object(cls, id, name, species, height, weight, abilityone, abilitytwo, abilitythree, typeone, typetwo, entry, gen, image, prev, next):
+        obj =  cls(id, name.capitalize(), species, height, weight, abilityone, abilitytwo, abilitythree, typeone, typetwo, entry, gen, image, prev, next )
         return obj

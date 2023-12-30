@@ -41,7 +41,7 @@ def getPokemon(name):
              'id' : pokemon.id,
              'gen': pokemon.gen,
              'entry' : pokemon.entry,
-             'genus' : pokemon.genus,
+             'genus' : pokemon.species,
              'image' : pokemon.image,
              'errorholder' : errorholder
             }
@@ -56,5 +56,8 @@ def getPokemon(name):
         
 
 if __name__ == '__main__':
-    IRmodel, IRmodelClasses = setUpModel()
+    try:
+        IRmodel, IRmodelClasses = setUpModel()
+    except:
+        pass
     app.run(debug=True)

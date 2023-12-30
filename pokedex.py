@@ -1,7 +1,7 @@
 import requests
 import json
 from random import randrange
-from pokemonDTO import create_object
+from DTOs.pokemonDTO import pokemonDTO
 
 spiciesPrefix = ''
 
@@ -35,7 +35,6 @@ def getFullPokedexEntry(pokeDexEntries, DexLang):
             language = entry['language']['name']
             if language == DexLang:
                 fullDescription += entry['flavor_text'].replace('\n', ' ') + ' '
-        #return 'lol' #fullDescription
         return 'Pikachu, a remarkable Pokémon, is distinguished by its bright yellow fur and distinctive features. It keeps its tail raised to stay vigilant, and if provoked, it wont hesitate to bite. This intelligent Pokémon possesses electricity-storing pouches on its cheeks, which can generate powerful electric shocks and even cause lightning storms when multiple Pikachus gather. Its known for roasting hard berries with electricity to make them tender enough to eat. pikachus tail-raising habit sometimes exposes it to lightning strikes. When angered, it immediately discharges the energy stored in its cheek pouches. Interestingly, these pouches become electrically charged during the night while Pikachu sleeps, occasionally leading to discharges when it wakes up groggy. In a unique greeting ritual, Pikachu touch their tails together to exchange electricity. They are known to use electric shocks to revive weakened fellow Pikachus. Its their nature to store electricity, and they can feel stressed if unable to fully discharge it. Forests inhabited by Pikachu can be hazardous due to frequent lightning strikes caused by their electric powers. Despite their adorable appearance, Pikachu should be approached with caution, as their electric sacs can deliver a tingly shock upon contact.', 'Full Description'
 
 def getPokeDexEntryByGen(pokeDexEntries, generation, DexLang):
@@ -46,12 +45,14 @@ def getPokeDexEntryByGen(pokeDexEntries, generation, DexLang):
                     return x['flavor_text'].replace('\n', ' ')
                 
 def getPokemonGenus(pokeDexEntries, DexLang):
-            print(pokeDexEntries)
             pokeGenuses = pokeDexEntries['genera']
             for x in pokeGenuses:
                 language = x['language']['name']
                 if language == DexLang:
                     return x['genus'].replace('\n', ' ')
+
+def createPokemon(pokeId, pokeName, singleEntry, newGeneration, pokeGenus, image, prev, next):
+     return pokemonDTO(pokeId, pokeName, pokeGenus, None, None, None, None, None, None, None, singleEntry, newGeneration, image, prev, next )
 
 def fetchPokemon(id, generation, DexLang):
 
@@ -73,13 +74,14 @@ def fetchPokemon(id, generation, DexLang):
              fullDexentry = getFullPokedexEntry(PokeDXEntries, DexLang)
              discoverPokemon(pokeId, pokeName, fullDexentry, '', pokeGenus)
         elif generation == 'all':
-            getAllDexentries(pokeId, pokeName, PokeDXEntries, DexLang)
+            pass
+            #getAllDexentries(pokeId, pokeName, PokeDXEntries, DexLang)
         elif generation == 'random':
             singleEntry, newGeneration = getRandomDexEntry(PokeDXEntries, DexLang)
             image = 'https://pngimg.com/uploads/pokemon/pokemon_PNG1.png'
             prev = baseUrl+str(pokeId-1)
             next = baseUrl+str(pokeId+1)
-            pokemon = create_object(pokeId, pokeName, singleEntry, newGeneration, pokeGenus, image, prev, next)
+            pokemon = createPokemon(pokeId, pokeName, singleEntry, newGeneration, pokeGenus, image, prev, next)
             return pokemon
         else:
             dexEntry = getPokeDexEntryByGen(PokeDXEntries, generation, DexLang)
@@ -90,6 +92,8 @@ def fetchPokemon(id, generation, DexLang):
             discoverPokemon(pokeId, pokeName, dexEntry, generation, pokeGenus)
     except:
         print('Unknown Pokemon')
-    return create_object('','','','','', '', '', '')
+    return createPokemon('','','','','', '', '', '')
+
+
 
      
