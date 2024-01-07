@@ -3,6 +3,11 @@
 <html lang="en">
 <head>
     <h1>POKEDEX!</h1>
+    {% if error %}
+        <div>
+            <p>Error: {{ error[0] }}</p>
+        </div>
+    {% endif %}
     <div>
         <p>  
             To search a pokemon, extend link with e.g: /pokemon/bulabasaur

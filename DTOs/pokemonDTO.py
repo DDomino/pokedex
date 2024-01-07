@@ -19,5 +19,5 @@ class pokemonDTO:
 
     @classmethod
     def create_object(cls, id, name, species, height, weight, abilityone, abilitytwo, abilitythree, typeone, typetwo, entry, gen, image, prev, next):
-        obj =  cls(id, name.capitalize(), species, height, weight, abilityone, abilitytwo, abilitythree, typeone, typetwo, entry, gen, image, prev, next )
+        obj =  cls(id, name, species, height, weight, abilityone, abilitytwo, abilitythree, typeone, typetwo, entry, gen, image, prev, next )
         return obj
