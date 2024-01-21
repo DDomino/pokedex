@@ -13,11 +13,22 @@
         </div>
         <div class="body">
             <h1><u>{{data['name']}}</u></h1>
+            
             <div class="screen">
                 <img id="pokemon-image" src="{{ data['image'] }}" alt="Pokedex Screen">
             </div>
             <div class="infobox">
                 <b>INDEX:</b> {{data['id']}}<br>
+                <b> Abilities:</b><br> 
+                {% if abilitiesArray[0] != "-" %} 
+                    {{abilitiesArray[0]}}<br>
+                {% endif %} 
+                {% if abilitiesArray[1] != "-" %}
+                {{abilitiesArray[1]}}<br>
+                {% endif %}
+                {% if abilitiesArray[2] != "-" %}
+                    <b>Hidden Aibility:</b> {{abilitiesArray[2]}}<br>
+                {% endif %}
                 <b><u>Generation Entry:</b> {{data['gen']}}</u><br>
                 {{data['entry']}}
             </div>

@@ -13,7 +13,7 @@ MAX_NUMBER_OF_ABILITIES = 3
 MAX_NUMBER_OF_TYPES = 2 
 
 def createPokemon(id, name, pokeGenus ,height, weight, ability1, ability2, ability3, type1, types2):
-    return pokemonDTO.create_object(id, name, pokeGenus ,height, weight,ability1, ability2,ability3, type1, types2, None, None, None, None, None)
+    return pokemonDTO.create_object(id, name, pokeGenus ,height, weight,ability1, ability2,ability3, type1, types2, None, None, None)
 
 def getAbilitiesForPokemon(pokemonAbilities):
     index = 0
