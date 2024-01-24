@@ -29,8 +29,11 @@
                 {% if abilitiesArray[2] != "-" %}
                     <b>Hidden Aibility:</b> {{abilitiesArray[2]}}<br>
                 {% endif %}
-                <b><u>Generation Entry:</b> {{data['gen']}}</u><br>
-                {{data['entry']}}
+                <b><u>Generation Entry:</b></u><br>
+                <select id="gendropdown" onchange="displaySelectedEntry()">
+                    <option value="" disabled selected>Choose generation</option>
+                </select> <br>
+                <div id="selectedEntry"></div>
             </div>
             <div class="controls">
                 {% if data.id < 2 %}
@@ -47,15 +50,36 @@
         </div>
     </div>
     <script>
-          
+        var entries = JSON.parse('{{entriesArray|tojson|safe}}');
+        var generations = JSON.parse('{{generations|tojson|safe}}');
+        var gendropdown = document.getElementById("gendropdown");
+
+        for (var i = 0; i < generations.length; i++) {
+            var generationKey = generations[i];
+            
+            // Check if the key exists in the entries
+            if (generationKey in entries) {
+                var option = document.createElement("option");
+                option.value = entries[generationKey];
+                option.text = generationKey[0].toUpperCase() + generationKey.slice(1);
+                gendropdown.appendChild(option);
+            } else {
+               //console.warn("Key not found in entries:", generationKey);
+            }
+        }
+
+        function displaySelectedEntry() {
+            var selectedEntry = gendropdown.value;
+            document.getElementById("selectedEntry").innerText = selectedEntry;
+        }
+
         var pokemonData = JSON.parse('{{ links|tojson|safe}}');
-        console.log(pokemonData);
-        function goToPrev()
-        {
+        function goToPrev() {
             var url = pokemonData.prev;
             window.location.href = url;
         }
-        function goToNext(){
+
+        function goToNext() {
             var url = pokemonData.next;
             window.location.href = url;
         }
@@ -63,4 +87,3 @@
 </body>
 
 </html>
-

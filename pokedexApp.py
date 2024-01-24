@@ -6,11 +6,26 @@ from cache.pkmCache import populatePkmCache
 from cache.abilityCache import populateAbilityCache
 from cache.typeCache import populateTypeCache
 from cache.dexEntryCache import populateDexEntryCache
+from cache.generationCache import populateGenerationCache
+import re
+import json
 
 
 app = Flask(__name__)
 
+allGenerations = []
+PKMCache = None
+abilityCache = None
+typeCache = None
+dexEntryCache = None
+generationCache = None
 
+nameToIdMap = None
+
+UPLOADR_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOADR_FOLDER
+IRmodel = None
+IRmodelClasses = []
 
 def nameToId(n):
     print("Create Name to Id Map")
@@ -20,20 +35,21 @@ def nameToId(n):
         name_to_id_map[pkmname] = i
     return name_to_id_map
 
+# Function to remove control characters
+def remove_control_characters(input_string):
+    control_chars = ''.join([chr(i) for i in range(32) if i != 10 and i != 13])  # Exclude newline and carriage return
+    control_char_pattern = re.compile('[%s]' % re.escape(control_chars))
+    return control_char_pattern.sub('', input_string)
+
+def listOfGenerations():
+    temp = []
+    loopRange = len(generationCache._cache_instance)
+    for i in range(1, loopRange+1):
+        temp.append(generationCache.get(i).name)
+    return temp
 
 
-PKMCache = None
-abilityCache = None
-typeCache = None
-dexEntryCache = None
-generations = {"red", "blue", "yellow"}
 
-nameToIdMap = None
-
-UPLOADR_FOLDER = 'uploads'
-app.config['UPLOAD_FOLDER'] = UPLOADR_FOLDER
-IRmodel = None
-IRmodelClasses = []
 
 @app.route('/pokemon')
 def goToIndex():
@@ -82,10 +98,18 @@ def getPokemon(id):
         abilities.append(abtOne.capitalize())
         abilities.append(abtTwo.capitalize())
         abilities.append(abtThree.capitalize())
+        if dexEntryCache.get(pokemon.id):
+            entriesList = dexEntryCache.get(pokemon.id)
+            for gen in allGenerations:
+                entry = entriesList.get(gen)
+                if entry is not None:
+                    originalString = entriesList.get(gen).entry
+                    newString = originalString.replace('\x0c', " ")
+                    entries[gen] = newString
+            json_string = json.dumps(entries)
+            cleansed_json_string = remove_control_characters(json_string)
+            entries = json.loads(cleansed_json_string)
 
-        entriesList = dexEntryCache.get(pokemon.id)
-#        for gen in generations:
-#           entries[gen] = entriesList.get(gen).entry
 
         data = {'name' : pokemon.name,
                  'id' : pokemon.id,
@@ -101,7 +125,7 @@ def getPokemon(id):
         links = {'prev' : pokemon.id-1,
                  'next' : pokemon.id+1
                  }
-        return render_template('pokedexentry.html', data = data, entriesArray = entriesArray, links = links, abilitiesArray = abilitiesArray, typesArray = typesArray)
+        return render_template('pokedexentry.html', data = data, generations = allGenerations, entriesArray = entriesArray, links = links, abilitiesArray = abilitiesArray, typesArray = typesArray)
     except Exception as e:
         print(f'Error: {e}')
         errorholder.append(f'Pokemon with the name or id: "{id}" does not exsist')
@@ -109,13 +133,15 @@ def getPokemon(id):
         
 
 if __name__ == '__main__':
-    try:
+   # try:
         #IRmodel, IRmodelClasses = setUpModel()
         PKMCache = populatePkmCache()
         abilityCache = populateAbilityCache()
         typeCache = populateTypeCache()
         dexEntryCache = populateDexEntryCache()
+        generationCache = populateGenerationCache()
+        allGenerations = listOfGenerations()
         nameToIdMap = nameToId(len(PKMCache._cache_instance))
-    except:
-        pass
-    app.run(debug=True)
+    #except Exception as e:
+        #print("ERROR!  " + str(e))
+        app.run(debug=True)

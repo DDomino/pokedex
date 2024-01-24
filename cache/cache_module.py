@@ -9,5 +9,5 @@ class PkdexCache:
     
     
     def set(self, key, value):
-        self._cache_instance    [key] = value
+        self._cache_instance[key] = value
 

@@ -68,3 +68,21 @@ button {
 button:hover {
     background-color: #c00;
 }
+
+select {
+    font-weight: bold;
+    text-align: justify;
+    text-justify: inter-word;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    color: black;
+    background-color:beige; /* Set the background color to match the overall style */
+    border: 2px solid black; /* Set the border color to match the header color */
+}
+
+select:focus {
+    outline: none; /* Remove the default focus outline */
+    border-color: #c00; /* Change border color when the select is focused */
+}
